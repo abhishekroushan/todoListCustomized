@@ -31,6 +31,8 @@ class TodoListItem(object):
     def getItem(self):
         return self.item
     def getAttributes(self):
+        return self.attributes
+    def getAttributesSerialized(self):
         return self.attributes.serialize()
     def reset(self):
         self.item = None
@@ -50,7 +52,9 @@ class TodoList(object):
     def print(self):
         print("Todo List:")
         for i,l in enumerate(self.list):
-            print(i,":", l.getItem(), "--", l.getAttributes())
+            print(i,":", l.getItem(), "--", l.getAttributesSerialized())
+    def sortByAttributeKey(self, key:str):
+        self.list.sort(key=lambda x: x.valueForAttributeKey(key))
 
 def createTodoListDummy():
     tl = TodoList()
@@ -62,7 +66,12 @@ def createTodoListDummy():
                        Attributes({"priority":3, "time required":1.5, "impact":1.5})))
     tl.addTodoListItem(TodoListItem("study Freakonomics",
                        Attributes({"priority":4, "time required":1, "impact":1})))
+    print("unsorted todo list")
     tl.print()
+    print("sort todo list by time required")
+    tl.sortByAttributeKey("time required")
+    tl.print()
+
 
 def main():
     createTodoListDummy()
