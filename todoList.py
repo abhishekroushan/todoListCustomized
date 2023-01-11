@@ -88,6 +88,10 @@ class MyTodoListWindow:
         self.rowOffset = 20
         self.rows = []
         self.initGrid(window, 5,4)
+        self.displayOffset = 50
+        self.btn = Button(window, text="Display Todo list", fg='blue',
+                          command=self.showTodoList(window))
+        self.btn.grid(row = self.displayOffset, column=0)
     def initGrid(self, window, numRows:int, numCols:int):
         for i in range(numRows):
             cols = []
@@ -97,36 +101,21 @@ class MyTodoListWindow:
                 e.insert(END, '%d.%d' % (i, j))
                 cols.append(e)
             self.rows.append(cols)
+    def showTodoList(self, window):
+        self.createRowsTextGrid(window, len(self.rows), len(self.rows[0]))
+    def createRowsTextGrid(self, window, numRows:int, numCols:int):
+        for i in range(numRows):
+            cols = []
+            for j in range(numCols):
+                l = Label(window, text = self.rows[i][j].get())
+                l.grid(row=i+self.displayOffset, column=j)
+                # l.insert(END, '%d.%d' % (i, j))
 
-    def showTodoList(self):
-        pass
 
 
 def createUIForToDoList():
     window=Tk()
-    # btn=Button(window, text="This is Button widget", fg='blue')
-    # btn.place(x=80, y=100)
-    # lbl=Label(window, text="This is Label widget", fg='red', font=("Helvetica", 16))
-    # lbl.place(x=60, y=50) 
     myWin = MyTodoListWindow(window)
-    # lbl1 = Label(window, text = "Todo item")
-    # lbl1.grid(row=10, column= 0)
-    # lbl2 = Label(window, text = "Priority")
-    # lbl2.grid(row=10, column= 1)
-    # lbl3 = Label(window, text = "Time required")
-    # lbl3.grid(row=10, column= 2)
-    # lbl4 = Label(window, text = "Impact")
-    # lbl4.grid(row=10, column= 3)
-    # rowOffset = 20
-    # rows = []
-    # for i in range(5):
-    #     cols = []
-    #     for j in range(4):
-    #         e = Entry(relief=GROOVE)
-    #         e.grid(row=i+rowOffset, column=j, sticky=NSEW)
-    #         e.insert(END, '%d.%d' % (i, j))
-    #         cols.append(e)
-    #     rows.append(cols)
     window.title('ToDo List')
     window.geometry("300x1200+10+10")
     window.mainloop()
